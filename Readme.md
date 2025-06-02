@@ -1,42 +1,43 @@
-# PDF Retriever AI
+# Gemini PDF Query Answer Agent
 
-PDF Retriever AI is an intelligent document search tool that allows users to query the contents of their PDF files using natural language. It leverages state-of-the-art NLP models and vector search to provide fast, context-aware answers from your own document collections.
+This project is an intelligent PDF question-answering agent. It allows users to upload PDF files, automatically extracts and indexes their content, and enables natural language querying using advanced embeddings and the Gemini LLM. The web interface is built with Streamlit.
 
 ---
 
 ## Features
 
-- **PDF Text Extraction:** Automatically extracts text from uploaded PDF files.
+- **PDF Upload & Text Extraction:** Upload one or more PDFs and extract their text automatically.
 - **Semantic Embedding:** Converts document text into high-dimensional vectors using transformer-based models.
 - **Efficient Indexing:** Uses FAISS for fast similarity search across large document sets.
-- **Natural Language Querying:** Users can ask questions in plain English and receive relevant text passages as answers.
-- **Web Interface:** (If applicable) Easy-to-use interface for uploading files and querying.
+- **Natural Language Querying:** Users can ask questions in plain English and receive relevant answers from the uploaded PDFs.
+- **Web Interface:** User-friendly interface for uploading files and querying.
 
 ---
 
 ## How It Works
 
-1. **PDF Loading:**  
-   PDFs are loaded and their text is extracted using [PyMuPDF](https://pymupdf.readthedocs.io/).
+1. **PDF Upload:**  
+   Users upload PDFs via the Streamlit web interface.
 
-2. **Text Chunking & Embedding:**  
-   The extracted text is split into manageable chunks (e.g., sentences or paragraphs). Each chunk is embedded into a vector using the `sentence-transformers` library (e.g., `all-MiniLM-L6-v2`).
+2. **Text Extraction:**  
+   The app extracts text from each PDF using [PyMuPDF](https://pymupdf.readthedocs.io/).
 
-3. **Indexing:**  
-   All embeddings are stored in a FAISS index, enabling fast similarity search.
+3. **Embedding & Indexing:**  
+   Extracted text is split into sentences, embedded with `sentence-transformers`, and indexed with FAISS.
 
 4. **Querying:**  
-   When a user submits a question, it is embedded in the same way. The system searches the FAISS index for the most similar text chunks and returns them as answers.
+   User questions are embedded and matched to the most relevant text chunks. The context is sent to Gemini for answer synthesis.
 
 ---
 
 ## Tech Stack
 
 - **Python 3.8+**
+- [Streamlit](https://streamlit.io/) — Web interface
 - [PyMuPDF (fitz)](https://pymupdf.readthedocs.io/) — PDF text extraction
 - [sentence-transformers](https://www.sbert.net/) — Text embedding
 - [FAISS](https://faiss.ai/) — Vector similarity search
-- [Streamlit](https://streamlit.io/) *(optional, for web UI)*
+- [Google Generative AI (Gemini)](https://ai.google.dev/) — LLM for answer generation
 - [Pickle](https://docs.python.org/3/library/pickle.html) — Data serialization
 
 ---
@@ -44,28 +45,30 @@ PDF Retriever AI is an intelligent document search tool that allows users to que
 ## Project Structure
 
 ```
-PDF Query Agent/
+PDF Query Answer Agent/
 │
+├── main.py                # Streamlit web app (main entry point)
+├── embedding.py           # Embedding and FAISS index helpers
 ├── retriever_tool.py      # Core retrieval logic (embedding, indexing, querying)
+├── llm_wrapper.py         # Gemini LLM API wrapper
 ├── utils/
 │   └── file_loader.py     # PDF text extraction utility
-├── embedding.py           # (Assumed) Embedding/indexing helpers
 ├── store/                 # Directory for storing FAISS index and text data
 ├── requirements.txt       # Python dependencies
-└── README.md              # Project documentation
+└── Readme.md              # Project documentation
 ```
 
 ---
 
 ## Example Usage
 
-```python
-from retriever_tool import retrieve_function
+To run the web app locally:
 
-query = "What are the main findings in the document?"
-result = retrieve_function(query)
-print(result)
+```sh
+streamlit run main.py
 ```
+
+You can then upload PDFs and ask questions via the browser interface.
 
 ---
 
@@ -74,7 +77,7 @@ print(result)
 1. **Clone the repository:**
    ```sh
    git clone <repo-url>
-   cd PDF Query Agent
+   cd "PDF Query Answer Agent"
    ```
 
 2. **Install dependencies:**
@@ -82,23 +85,31 @@ print(result)
    pip install -r requirements.txt
    ```
 
-3. **Prepare your PDFs:**
-   - Place your PDF files in a designated folder.
-   - Use the provided utilities to extract and index the text.
+3. **Run the app:**
+   ```sh
+   streamlit run main.py
+   ```
 
-4. **Run the retrieval tool:**
-   - Use the `retrieve_function` or the web interface (if available) to query your documents.
+---
+
+## Deployment
+
+To deploy on [Streamlit Community Cloud](https://streamlit.io/cloud):
+
+1. Push your code (including `requirements.txt` and all source files) to a public GitHub repository.
+2. Go to [Streamlit Cloud](https://streamlit.io/cloud), sign in, and create a new app.
+3. Select your repo, set `main.py` as the entry point, and deploy.
 
 ---
 
 ## Customization
 
 - **Change Embedding Model:**  
-  You can swap out the SentenceTransformer model for another supported by the library.
-- **Adjust Chunk Size:**  
+  You can swap out the SentenceTransformer model in `embedding.py` for another supported by the library.
+- **Adjust Sentence Splitting:**  
   Modify how text is split for more granular or broader search results.
-- **Integrate with LLMs:**  
-  Optionally, retrieved text can be passed to a language model for answer synthesis.
+- **Integrate with Other LLMs:**  
+  Optionally, retrieved text can be passed to a different language model for answer synthesis.
 
 ---
 
@@ -113,6 +124,8 @@ This project is licensed under the MIT License.
 - [PyMuPDF](https://pymupdf.readthedocs.io/)
 - [sentence-transformers](https://www.sbert.net/)
 - [FAISS](https://faiss.ai/)
+- [Streamlit](https://streamlit.io/)
+- [Google Generative AI](https://ai.google.dev/)
 
 ---
 
