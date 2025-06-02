@@ -9,9 +9,9 @@ try:
 except Exception:
     raise RuntimeError("HUGGINGFACE_TOKEN not found in Streamlit secrets. Please add it to .streamlit/secrets.toml or Streamlit Cloud secrets.")
 
-model = SentenceTransformer("all-MiniLM-L6-v2", use_auth_token=hf_token)
+model = SentenceTransformer("all-MiniLM-L6-v2", token=hf_token)
 
-def embed_and_store(text: str, store_dir="store"):
+def embed_and_store(text: str, store_dir="/tmp/store"):
     os.makedirs(store_dir, exist_ok=True)
     sentences = [s.strip() for s in text.split("\n") if len(s.strip()) > 20]
 
@@ -26,7 +26,7 @@ def embed_and_store(text: str, store_dir="store"):
     with open(f"{store_dir}/sentences.pkl", "wb") as f:
         pickle.dump(sentences, f)
 
-def load_index(store_dir="store"):
+def load_index(store_dir="/tmp/store"):
     index_path = f"{store_dir}/store.faiss"
     sentences_path = f"{store_dir}/sentences.pkl"
 
