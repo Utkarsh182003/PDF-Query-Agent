@@ -1,0 +1,5 @@
+pydantic-ai
+faiss-cpu
+sentence-transformers
+PyMuPDF
+google-generativeai
