@@ -17,15 +17,13 @@ class RetrieverTool:
         return "\n\n".join(results)
 
     def _embed_query(self, query: str):
-        # Embedding must use the same model as indexing
+
         from sentence_transformers import SentenceTransformer
         model = SentenceTransformer("all-MiniLM-L6-v2")
         return model.encode([query])
 
-# Expose a properly typed function for PydanticAI
 def retrieve_function(query: str) -> str:
     """Function wrapper with type hints for pydantic-ai."""
-    # Ideally, use singleton or lazy load to avoid loading index multiple times
     global _retriever_instance
     if '_retriever_instance' not in globals():
         _retriever_instance = RetrieverTool()

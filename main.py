@@ -7,7 +7,7 @@ from retriever_tool import RetrieverTool
 from pydantic_ai.agent import Agent
 from llm_wrapper import ask_gemini
 import tempfile
-import asyncio
+
 
 st.set_page_config(page_title="Gemini PDF Q&A", layout="wide")
 
@@ -39,7 +39,6 @@ if uploaded_files:
         with st.spinner("Retrieving answer..."):
             context = retriever.run(user_query)
             prompt = f"Answer this question using the context below:\n\nContext:\n{context}\n\nQuestion: {user_query}"
-            reply = asyncio.run(ask_gemini(prompt))
+            reply = ask_gemini(prompt)
             st.markdown("### 🤖 Gemini Answer:")
             st.write(reply)
-

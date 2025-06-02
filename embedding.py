@@ -19,10 +19,10 @@ def embed_and_store(text: str, store_dir="/tmp/store"):
     index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(embeddings)
 
-    # Save FAISS index separately
+
     faiss.write_index(index, f"{store_dir}/store.faiss")
 
-    # Save sentences separately
+
     with open(f"{store_dir}/sentences.pkl", "wb") as f:
         pickle.dump(sentences, f)
 

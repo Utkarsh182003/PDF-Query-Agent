@@ -3,6 +3,9 @@ faiss-cpu
 sentence-transformers
 PyMuPDF
 google-generativeai
-streamlit
-torch
-torchvision
+streamlit>=1.22.0
+torch>=2.0.0
+torchvision>=0.15.0
+python-dotenv
+
+
