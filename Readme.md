@@ -44,7 +44,7 @@ PDF Retriever AI is an intelligent document search tool that allows users to que
 ## Project Structure
 
 ```
-AI-Medical/
+PDF Query Agent/
 │
 ├── retriever_tool.py      # Core retrieval logic (embedding, indexing, querying)
 ├── utils/
@@ -74,7 +74,7 @@ print(result)
 1. **Clone the repository:**
    ```sh
    git clone <repo-url>
-   cd AI-Medical
+   cd PDF Query Agent
    ```
 
 2. **Install dependencies:**
