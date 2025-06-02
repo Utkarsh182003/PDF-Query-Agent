@@ -2,8 +2,14 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import pickle
 import os
+import streamlit as st
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+try:
+    hf_token = st.secrets["HUGGINGFACE_TOKEN"]
+except Exception:
+    raise RuntimeError("HUGGINGFACE_TOKEN not found in Streamlit secrets. Please add it to .streamlit/secrets.toml or Streamlit Cloud secrets.")
+
+model = SentenceTransformer("all-MiniLM-L6-v2", use_auth_token=hf_token)
 
 def embed_and_store(text: str, store_dir="store"):
     os.makedirs(store_dir, exist_ok=True)
